@@ -11,7 +11,7 @@ There is a [Compose file](minimal-distributed.yaml) to instantiate a minimal (no
 To prepare your system to deploy Clearwater using compose, run:
 
     # Install Docker (on Ubuntu) - we need the latest for compatibility with Compose.
-    wget -qO- https://get.docker.com/ | sh
+    wget -qO- https://get.docker.com/ | sudo sh
 
     # Install Docker Compose (on Ubuntu).
     sudo apt-get install python-pip
