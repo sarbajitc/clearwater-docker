@@ -1,0 +1,60 @@
+﻿version: '2'
+services:
+  etcd:
+    image: quay.io/coreos/etcd:v2.2.5
+    command: >
+      -name etcd0
+      -advertise-client-urls http://etcd:2379,http://etcd:4001
+      -listen-client-urls http://0.0.0.0:2379,http://0.0.0.0:4001
+      -initial-advertise-peer-urls http://etcd:2380
+      -listen-peer-urls http://0.0.0.0:2380
+      -initial-cluster etcd0=http://etcd:2380
+      -initial-cluster-state new
+  bono_ambassador_5060:
+    image: svendowideit/ambassador
+    command: bono 5060
+    ports:
+      - "5060:5060"
+      - "5060:5060/udp"
+  bono_ambassador_3478:
+    image: svendowideit/ambassador
+    command: bono 3478
+    ports:
+      - "3478:3478"
+      - "3478:3478/udp"
+  bono:
+    image: docker-host:5000/clearwaterdocker_bono
+    ports:
+      - 22
+      - "5062:5062"
+    expose:
+      - "3478"
+      - "3478/udp"
+      - "5060"
+      - "5060/udp"
+  sprout:
+    image: docker-host:5000/clearwaterdocker_sprout
+    networks:
+      default:
+        aliases:
+          - scscf.sprout
+          - icscf.sprout
+    ports:
+      - 22
+  homestead:
+    image: docker-host:5000/clearwaterdocker_homestead
+    ports:
+      - 22
+  homer:
+    image: docker-host:5000/clearwaterdocker_homer
+    ports:
+      - 22
+  ralf:
+    image: docker-host:5000/clearwaterdocker_ralf
+    ports:
+      - 22
+  ellis:
+    image: docker-host:5000/clearwaterdocker_ellis
+    ports:
+      - 22
+      - "80:80"
